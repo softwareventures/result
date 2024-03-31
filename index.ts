@@ -19,3 +19,19 @@ export function err<const E>(reason: E): Err<E>;
 export function err<const E = null>(reason: E = null as E): Err<E> {
     return new Err(reason);
 }
+
+export function resultFrom<const T>(fn: () => T): Result<T, null>;
+export function resultFrom<const T, const E>(
+    fn: () => T,
+    catchFn: (error: unknown) => E
+): Result<T, E>;
+export function resultFrom<const T, const E>(
+    fn: () => T,
+    catchFn: (error: unknown) => E = () => null as E
+): Result<T, E> {
+    try {
+        return ok(fn());
+    } catch (reason: unknown) {
+        return err(catchFn(reason));
+    }
+}
