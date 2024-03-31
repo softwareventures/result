@@ -83,3 +83,22 @@ export function unwrapErr<const E>(result: Result<unknown, E>): E {
         throw new TypeError("Err expected");
     }
 }
+
+export function bindResult<const TInValue, const TOutValue, const TInReason, const TOutReason>(
+    result: Result<TInValue, TInReason>,
+    fn: (value: TInValue) => Result<TOutValue, TOutReason>
+): Result<TOutValue, TInReason | TOutReason> {
+    if (result instanceof Err) {
+        return result;
+    } else {
+        return fn(result.value);
+    }
+}
+
+export function bindResultFn<const TInValue, const TOutValue, const TOutReason>(
+    fn: (value: TInValue) => Result<TOutValue, TOutReason>
+): <const TInReason>(
+    result: Result<TInValue, TInReason>
+) => Result<TOutValue, TInReason | TOutReason> {
+    return result => bindResult(result, fn);
+}
