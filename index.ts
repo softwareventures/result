@@ -51,3 +51,7 @@ export async function asyncResultFrom<const T, const E = null>(
         return err(await catchFn(reason));
     }
 }
+
+export function isOk<const T>(result: Result<T, unknown>): result is Ok<T> {
+    return result instanceof Ok;
+}
