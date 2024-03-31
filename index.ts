@@ -75,3 +75,11 @@ export function unwrapOk<const T>(result: Result<T, unknown>): T {
         throw result;
     }
 }
+
+export function unwrapErr<const E>(result: Result<unknown, E>): E {
+    if (result instanceof Err) {
+        return result.reason;
+    } else {
+        throw new TypeError("Err expected");
+    }
+}
