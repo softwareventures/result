@@ -119,3 +119,20 @@ export function mapOkFn<const TInValue, const TOutValue>(
 ): <const TReason>(result: Result<TInValue, TReason>) => Result<TOutValue, TReason> {
     return reason => mapOk(reason, fn);
 }
+
+export function mapErr<const TValue, const TInReason, const TOutReason>(
+    result: Result<TValue, TInReason>,
+    fn: (reason: TInReason) => TOutReason
+): Result<TValue, TOutReason> {
+    if (result instanceof Err) {
+        return err(fn(result.reason));
+    } else {
+        return result;
+    }
+}
+
+export function mapErrFn<const TInReason, const TOutReason>(
+    fn: (reason: TInReason) => TOutReason
+): <const TValue>(result: Result<TValue, TInReason>) => Result<TValue, TOutReason> {
+    return result => mapErr(result, fn);
+}
