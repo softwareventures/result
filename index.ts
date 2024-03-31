@@ -136,3 +136,20 @@ export function mapErrFn<const TInReason, const TOutReason>(
 ): <const TValue>(result: Result<TValue, TInReason>) => Result<TValue, TOutReason> {
     return result => mapErr(result, fn);
 }
+
+export function unwrapOkOr<const TValue, const TDefault>(
+    result: Result<TValue, unknown>,
+    defaultValue: TDefault
+): TValue | TDefault {
+    if (result instanceof Ok) {
+        return result.value;
+    } else {
+        return defaultValue;
+    }
+}
+
+export function unwrapOkOrFn<const TDefault>(
+    defaultValue: TDefault
+): <const TValue>(result: Result<TValue, unknown>) => TValue | TDefault {
+    return result => unwrapOkOr(result, defaultValue);
+}
