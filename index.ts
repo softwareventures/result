@@ -88,10 +88,10 @@ export function bindResult<const TInValue, const TOutValue, const TInReason, con
     result: Result<TInValue, TInReason>,
     fn: (value: TInValue) => Result<TOutValue, TOutReason>
 ): Result<TOutValue, TInReason | TOutReason> {
-    if (result instanceof Err) {
-        return result;
-    } else {
+    if (result instanceof Ok) {
         return fn(result.value);
+    } else {
+        return result;
     }
 }
 
