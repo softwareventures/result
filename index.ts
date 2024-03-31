@@ -4,8 +4,16 @@ export class Ok<const T> {
     public constructor(public readonly value: T) {}
 }
 
-export class Err<const E> {
-    public constructor(public readonly reason: E) {}
+export class Err<const E> extends Error {
+    public constructor(public readonly reason: E) {
+        super();
+    }
+
+    public override toString(): string {
+        return this.reason == null || this.reason.toString === Object.prototype.toString
+            ? "Err"
+            : String(this.reason);
+    }
 }
 
 export function ok(): Ok<null>;
