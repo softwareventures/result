@@ -153,3 +153,20 @@ export function unwrapOkOrFn<const TDefault>(
 ): <const TValue>(result: Result<TValue, unknown>) => TValue | TDefault {
     return result => unwrapOkOr(result, defaultValue);
 }
+
+export function unwrapOkOrElse<const TInValue, const TOutValue, const TReason>(
+    result: Result<TInValue, TReason>,
+    elseFn: (reason: TReason) => TOutValue
+): TInValue | TOutValue {
+    if (result instanceof Ok) {
+        return result.value;
+    } else {
+        return elseFn(result.reason);
+    }
+}
+
+export function unwrapOkOrElseFn<const TOutValue, const TReason>(
+    elseFn: (reason: TReason) => TOutValue
+): <const TInValue>(result: Result<TInValue, TReason>) => TInValue | TOutValue {
+    return result => unwrapOkOrElse(result, elseFn);
+}
