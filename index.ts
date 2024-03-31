@@ -72,6 +72,6 @@ export function unwrapOk<const T>(result: Result<T, unknown>): T {
     if (result instanceof Ok) {
         return result.value;
     } else {
-        throw result.reason;
+        throw result;
     }
 }
