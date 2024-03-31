@@ -59,3 +59,11 @@ export function isOk<const T>(result: Result<T, unknown>): result is Ok<T> {
 export function isErr<const E>(result: Result<unknown, E>): result is Err<E> {
     return result instanceof Err;
 }
+
+export function unwrapOk<const T>(result: Result<T, unknown>): T {
+    if (result instanceof Ok) {
+        return result.value;
+    } else {
+        throw result.reason;
+    }
+}
