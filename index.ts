@@ -35,3 +35,19 @@ export function resultFrom<const T, const E>(
         return err(catchFn(reason));
     }
 }
+
+export function asyncResultFrom<const T>(fn: () => T | Promise<T>): Promise<Result<T, null>>;
+export function asyncResultFrom<const T, const E>(
+    fn: () => T | Promise<T>,
+    catchFn: (error: unknown) => E | Promise<E>
+): Promise<Result<T, E>>;
+export async function asyncResultFrom<const T, const E = null>(
+    fn: () => T | Promise<T>,
+    catchFn: (error: unknown) => E | Promise<E> = () => null as E
+): Promise<Result<T, E>> {
+    try {
+        return ok(await fn());
+    } catch (reason: unknown) {
+        return err(await catchFn(reason));
+    }
+}
