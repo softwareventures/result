@@ -2,8 +2,13 @@
   "private": true,
   "name": "@softwareventures/result",
   "version": "0.0.0-development",
-  "description": "",
-  "keywords": [],
+  "description": "A Rust-like Result type representing the result of a fallible computation",
+  "keywords": [
+    "result",
+    "fallible",
+    "monad",
+    "TypeScript"
+  ],
   "author": "Daniel Cassidy <mail@danielcassidy.me.uk>",
   "homepage": "https://github.com/softwareventures/result",
   "bugs": "https://github.com/softwareventures/result/issues",
