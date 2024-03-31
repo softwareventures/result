@@ -187,3 +187,20 @@ export function unwrapErrOrFn<const TDefault>(
 ): <const TReason>(result: Result<unknown, TReason>) => TReason | TDefault {
     return result => unwrapErrOr(result, defaultReason);
 }
+
+export function unwrapErrOrElse<const TValue, const TInReason, const TOutReason>(
+    result: Result<TValue, TInReason>,
+    elseFn: (value: TValue) => TOutReason
+): TInReason | TOutReason {
+    if (result instanceof Ok) {
+        return elseFn(result.value);
+    } else {
+        return result.reason;
+    }
+}
+
+export function unwrapErrOrElseFn<const TValue, const TOutReason>(
+    elseFn: (value: TValue) => TOutReason
+): <const TInReason>(result: Result<TValue, TInReason>) => TInReason | TOutReason {
+    return result => unwrapErrOrElse(result, elseFn);
+}
