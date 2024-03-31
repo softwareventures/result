@@ -55,3 +55,7 @@ export async function asyncResultFrom<const T, const E = null>(
 export function isOk<const T>(result: Result<T, unknown>): result is Ok<T> {
     return result instanceof Ok;
 }
+
+export function isErr<const E>(result: Result<unknown, E>): result is Err<E> {
+    return result instanceof Err;
+}
