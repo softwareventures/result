@@ -102,3 +102,20 @@ export function bindResultFn<const TInValue, const TOutValue, const TOutReason>(
 ) => Result<TOutValue, TInReason | TOutReason> {
     return result => bindResult(result, fn);
 }
+
+export function mapOk<const TInValue, const TOutValue, const TReason>(
+    result: Result<TInValue, TReason>,
+    fn: (value: TInValue) => TOutValue
+): Result<TOutValue, TReason> {
+    if (result instanceof Err) {
+        return result;
+    } else {
+        return ok(fn(result.value));
+    }
+}
+
+export function mapOkFn<const TInValue, const TOutValue>(
+    fn: (value: TInValue) => TOutValue
+): <const TReason>(result: Result<TInValue, TReason>) => Result<TOutValue, TReason> {
+    return reason => mapOk(reason, fn);
+}
