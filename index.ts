@@ -107,10 +107,10 @@ export function mapOk<const TInValue, const TOutValue, const TReason>(
     result: Result<TInValue, TReason>,
     fn: (value: TInValue) => TOutValue
 ): Result<TOutValue, TReason> {
-    if (result instanceof Err) {
-        return result;
-    } else {
+    if (result instanceof Ok) {
         return ok(fn(result.value));
+    } else {
+        return result;
     }
 }
 
