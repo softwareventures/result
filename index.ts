@@ -124,10 +124,10 @@ export function mapErr<const TValue, const TInReason, const TOutReason>(
     result: Result<TValue, TInReason>,
     fn: (reason: TInReason) => TOutReason
 ): Result<TValue, TOutReason> {
-    if (result instanceof Err) {
-        return err(fn(result.reason));
-    } else {
+    if (result instanceof Ok) {
         return result;
+    } else {
+        return err(fn(result.reason));
     }
 }
 
